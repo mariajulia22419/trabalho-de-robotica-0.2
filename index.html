@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Calmo - Seu Refúgio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>🌿 Espaço Calmo 🍓</h1>
+        <p>Um lugar seguro para conversar, respirar e relaxar no seu tempo.</p>
+        
+        <!-- Menu de Navegação por Abas -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab('chat-tab')">🤖 Conversa Anônima</button>
+            <button class="tab-btn" onclick="openTab('celeste-tab')">🪶 Respiração (Celeste)</button>
+            <button class="tab-btn" onclick="openTab('stardew-tab')">🌾 Jogos (Stardew)</button>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- ABA 1: CONVERSA ANÔNIMA COM IA -->
+        <section id="chat-tab" class="tab-content active-content">
+            <div class="card-section">
+                <h2>🤖 Conversa Acolhedora (Anônima)</h2>
+                <p class="subtitle">Este é um espaço 100% anônimo para desabafar. Nada fica salvo.</p>
+                
+                <div class="chat-container">
+                    <div class="chat-box" id="chat-box">
+                        <div class="message ai-message">
+                            <strong>Lumina (IA):</strong> Olá! Eu sou a Lumina. Estou aqui para te ouvir sem julgamentos. Como você está se sentindo hoje? 💙
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <input type="text" id="user-input" placeholder="Escreva o que está sentindo..." onkeypress="handleKeyPress(event)">
+                        <button onclick="sendMessage()">Enviar</button>
+                    </div>
+                </div>
+                
+                <div class="disclaimer">
+                    <p>⚠️ <em>Se precisar de ajuda urgente, converse com um adulto de confiança ou ligue gratuitamente para o CVV no <strong>188</strong> (Brasil).</em></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 2: CELESTE (Respiração) -->
+        <section id="celeste-tab" class="tab-content">
+            <div class="card-section">
+                <h2>🪶 A Pena de Celeste (Respiração Guiada)</h2>
+                <p>Inspire e expire acompanhando o movimento para acalmar o coração.</p>
+                
+                <div class="breathing-container">
+                    <div class="circle-outer">
+                        <div class="circle-inner" id="breathing-circle">
+                            <span id="breathing-text">Clique abaixo</span>
+                        </div>
+                    </div>
+                    <button id="btn-breath" onclick="toggleBreathing()">Iniciar Respiração</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 3: STARDEW VALLEY (Puzzle de Memória) -->
+        <section id="stardew-tab" class="tab-content">
+            <div class="card-section">
+                <h2>👨‍🌾 Memória da Fazendinha (Inspirado em Stardew)</h2>
+                <p>Encontre os pares da colheita no seu próprio ritmo, sem cronômetro.</p>
+
+                <div class="memory-board" id="memory-board"></div>
+                <button class="btn-restart" onclick="initMemoryGame()">Reiniciar Jogo</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Você é importante e está tudo bem ir com calma. 💙</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
