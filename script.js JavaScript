@@ -1,0 +1,189 @@
+/* ==========================================
+   1. GERENCIAMENTO DE ABAS
+   ========================================== */
+function openTab(tabId) {
+    const contents = document.querySelectorAll('.tab-content');
+    const buttons = document.querySelectorAll('.tab-btn');
+
+    contents.forEach(content => content.classList.remove('active-content'));
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active-content');
+    
+    // Marca o botão ativo
+    event.currentTarget.classList.add('active');
+}
+
+/* ==========================================
+   2. CHAT ANÔNIMO DE IA ACOLHEDORA (LUMINA)
+   ========================================== */
+function handleKeyPress(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+
+    if (text === "") return;
+
+    // Adiciona mensagem do usuário
+    appendMessage(text, 'user-message', 'Você');
+    input.value = '';
+
+    // Simula tempo de resposta da IA
+    setTimeout(() => {
+        const reply = generateAIReply(text);
+        appendMessage(reply, 'ai-message', 'Lumina (IA)');
+    }, 1000);
+}
+
+function appendMessage(text, className, senderName) {
+    const chatBox = document.getElementById('chat-box');
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message', className);
+    msgDiv.innerHTML = `<strong>${senderName}:</strong> ${text}`;
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function generateAIReply(userText) {
+    const lower = userText.toLowerCase();
+
+    if (lower.includes('medo') || lower.includes('assustad')) {
+        return "Sentir medo é normal. Lembre-se de que agora você está em um lugar seguro. Tente respirar bem devagar comigo na aba de Respiração.";
+    }
+    if (lower.includes('triste') || lower.includes('chorar')) {
+        return "Sinto muito que esteja passando por isso. Está tudo bem colocar pra fora. Quer me contar o que aconteceu ou prefere distrair a mente no jogo?";
+    }
+    if (lower.includes('pânico') || lower.includes('panico') || lower.includes('ansios')) {
+        return "Se o seu coração estiver acelerado, vamos fazer um exercício simples: me diga 3 coisas que você consegue ver ao seu redor agora.";
+    }
+    if (lower.includes('escola') || lower.includes('prova') || lower.includes('estudo')) {
+        return "A pressão da escola pode ser bem pesada às vezes. Lembre-se de fazer uma pausa e ir passo a passo. Você é capaz!";
+    }
+    if (lower.includes('oi') || lower.includes('olá') || lower.includes('ola')) {
+        return "Oi! Fico feliz que veio conversar. Como posso te ajudar hoje?";
+    }
+
+    // Respostas genéricas e acolhedoras
+    const defaultReplies = [
+        "Estou aqui te ouvindo. Pode falar mais sobre isso no seu próprio tempo.",
+        "Obrigado por compartilhar isso comigo. Saiba que seus sentimentos são válidos.",
+        "Você está sendo muito forte. Lembre-se de não se cobrar tanto hoje.",
+        "Estou aqui com você. Quer tentar um exercício de respiração para relaxar?"
+    ];
+
+    return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+}
+
+/* ==========================================
+   3. CELESTE: EXERCÍCIO DE RESPIRAÇÃO
+   ========================================== */
+let breathingInterval;
+let isBreathing = false;
+
+function toggleBreathing() {
+    const circle = document.getElementById('breathing-circle');
+    const text = document.getElementById('breathing-text');
+    const btn = document.getElementById('btn-breath');
+
+    if (!isBreathing) {
+        isBreathing = true;
+        btn.innerText = "Parar Respiração";
+        runBreathingCycle();
+        breathingInterval = setInterval(runBreathingCycle, 8000);
+    } else {
+        isBreathing = false;
+        clearInterval(breathingInterval);
+        btn.innerText = "Iniciar Respiração";
+        text.innerText = "Clique abaixo";
+        circle.classList.remove('grow');
+    }
+}
+
+function runBreathingCycle() {
+    const circle = document.getElementById('breathing-circle');
+    const text = document.getElementById('breathing-text');
+
+    text.innerText = "Inspire...";
+    circle.classList.add('grow');
+
+    setTimeout(() => {
+        if (isBreathing) {
+            text.innerText = "Expire...";
+            circle.classList.remove('grow');
+        }
+    }, 4000);
+}
+
+/* ==========================================
+   4. STARDEW VALLEY: JOGO DE MEMÓRIA
+   ========================================== */
+const items = ['🍎', '🍓', '🌽', '🌻', '🥕', '🍇'];
+let cardsData = [...items, ...items];
+let flippedCards = [];
+let matchedPairs = 0;
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function initMemoryGame() {
+    const board = document.getElementById('memory-board');
+    if (!board) return;
+    
+    board.innerHTML = '';
+    flippedCards = [];
+    matchedPairs = 0;
+    
+    const shuffledItems = shuffle([...cardsData]);
+
+    shuffledItems.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.value = item;
+        card.innerText = '❓';
+        card.addEventListener('click', flipCard);
+        board.appendChild(card);
+    });
+}
+
+function flipCard() {
+    if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+        this.classList.add('flipped');
+        this.innerText = this.dataset.value;
+        flippedCards.push(this);
+
+        if (flippedCards.length === 2) {
+            checkMatch();
+        }
+    }
+}
+
+function checkMatch() {
+    const [card1, card2] = flippedCards;
+
+    if (card1.dataset.value === card2.dataset.value) {
+        matchedPairs++;
+        flippedCards = [];
+        if (matchedPairs === items.length) {
+            setTimeout(() => alert('Parabéns! Você encontrou todos os pares no seu tempo! 🌾✨'), 300);
+        }
+    } else {
+        setTimeout(() => {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            card1.innerText = '❓';
+            card2.innerText = '❓';
+            flippedCards = [];
+        }, 1000);
+    }
+}
+
+// Inicia a memória quando a página carrega
+window.onload = () => {
+    initMemoryGame();
+};
